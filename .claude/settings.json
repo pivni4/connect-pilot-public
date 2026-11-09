@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node scripts/attack/run.mjs)",
+      "Bash(node scripts/attack/record-tool.mjs:*)",
+      "Bash(bash scripts/wait-for-branch.sh:*)"
+    ],
+    "deny": [
+      "mcp__claude-code-remote"
+    ]
+  }
+}

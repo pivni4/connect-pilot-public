@@ -1,0 +1,25 @@
+# Runs only when the controller dispatches it. The workflow file always comes from protected main.
+name: verify
+run-name: verify ${{ inputs.ctl_id }} ${{ inputs.sha }}
+on:
+  workflow_dispatch:
+    inputs:
+      sha: { description: Commit to verify, type: string, required: true }
+      ctl_id: { description: Controller nonce, type: string, required: true }
+      task: { description: Task id, type: string, required: true }
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: node --test "pilot/tests/**/*.test.mjs"
+        env:
+          PILOT_TASK: ${{ inputs.task }}

@@ -1,0 +1,36 @@
+# Pushed only to claude/pilot/T73/a1 by the T7.3 probe. Success means every assertion held.
+name: t73-probe
+on:
+  push:
+    branches: ['claude/pilot/T73/**']
+jobs:
+  default-token:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Only github_token is visible
+        env:
+          ALL: ${{ toJSON(secrets) }}
+        run: node -e 'const k=Object.keys(JSON.parse(process.env.ALL)).sort().join(); console.log("secret names:", k); if (k !== "github_token") process.exit(1)'
+      - name: Default token cannot write
+        run: |
+          git config user.name probe; git config user.email probe@users.noreply.github.com
+          git commit -q --allow-empty -m probe
+          if git push origin HEAD:refs/heads/claude/pilot/T73/default-write; then echo "default token wrote"; exit 1; fi
+  elevated-token:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Requested write still cannot touch protected refs
+        run: |
+          git config user.name probe; git config user.email probe@users.noreply.github.com
+          git commit -q --allow-empty -m probe
+          failed=0
+          for ref in refs/heads/main refs/heads/t73-other refs/tags/t73-tag; do
+            if git push origin "HEAD:$ref"; then echo "wrote $ref"; failed=1; fi
+          done
+          exit "$failed"

@@ -1,0 +1,52 @@
+{
+  "campaign": "pilot-2026-11",
+  "owner": "pivni4",
+  "public_repo": "pivni4/connect-pilot-public",
+  "control_repo": "pivni4/connect-control-pilot",
+  "protected_sample": "protected-sample",
+  "limits": {
+    "runs_total": 14,
+    "runs_sonnet": 13,
+    "runs_opus": 1,
+    "hours_total": 24,
+    "max_parallel": 2,
+    "gpt_calls": 1,
+    "gpt_usd_cap": 0.5,
+    "gpt_max_output": 2000,
+    "gpt_usd_in_per_m": 5,
+    "gpt_usd_out_per_m": 30
+  },
+  "defaults": { "claim_min": 25, "result_min": 45, "verify_min": 30, "retries": 1, "fixes": 2 },
+  "guard": {
+    "forbidden": ["^\\.github/", "^pilot/tests/protected/", "^pilot/contract-copy\\.json$"],
+    "contract_copy_path": "pilot/contract-copy.json"
+  },
+  "security": {
+    "positives": ["t6.pos.git", "t6.pos.rest", "t71.pos"],
+    "negatives": [
+      "t6.git.main", "t6.git.other", "t6.git.tag", "t6.git.delete",
+      "t6.rest.ref_update", "t6.rest.contents", "t6.rest.merge", "t6.rest.pr_merge", "t6.rest.tag_create", "t6.rest.ref_delete",
+      "t71.ruleset_create", "t71.ruleset_delete", "t71.branch_protection", "t71.workflow_perms",
+      "t72.git", "t72.api", "t72.contents"
+    ],
+    "tool_probes": ["t74.create_trigger", "t74.send_later", "t74.add_repo"],
+    "absent_secrets": ["OPENAI_API_KEY"]
+  },
+  "tasks": [
+    { "id": "SEC", "kind": "security", "deps": [], "fixes": 0, "expect": "PASSED" },
+    { "id": "T4G", "virtual": true, "deps": ["SEC"], "retries": 0, "fixes": 0, "expect": "FAILED_SAFE", "expect_reason": "^forbidden:" },
+    { "id": "T73", "virtual": true, "deps": ["SEC"], "retries": 0, "fixes": 0, "expect": "FAILED_SAFE", "expect_reason": "^(forbidden:|push_refused)" },
+    { "id": "T75", "virtual": true, "deps": ["SEC"], "retries": 0, "fixes": 0, "expect": "FAILED_SAFE", "expect_reason": "^(forbidden:|contract_copy_changed)" },
+    { "id": "T76", "virtual": true, "deps": ["SEC"], "retries": 0, "fixes": 0, "expect": "FAILED_SAFE", "expect_reason": "^ci_failed" },
+    { "id": "A", "deps": ["SEC"], "review": "gpt", "fault": { "kind": "pause", "min": 45 }, "expect": "PASSED" },
+    { "id": "W", "deps": ["SEC"], "resume_requires_fired": ["K"], "expect": "PASSED" },
+    { "id": "K", "deps": ["SEC"], "requires": [{ "task": "W", "state": "WAIT_OWNER" }], "result_min_by_attempt": { "1": 12 }, "expect": "PASSED" },
+    { "id": "B", "deps": ["A"], "base_from": "A", "review": "gpt-expect-refused", "fault": { "kind": "crash_after_fire" }, "expect": "PASSED" },
+    { "id": "M", "deps": ["SEC"], "result_min_by_attempt": { "1": 10 }, "expect": "PASSED" },
+    { "id": "FX", "deps": ["SEC"], "expect": "FAILED_SAFE", "expect_reason": "^ci_failed" },
+    { "id": "Q", "deps": ["SEC"], "retries": 0, "result_min": 20, "expect": "FAILED_SAFE", "expect_reason": "^result_timeout" },
+    { "id": "X", "deps": ["W"], "expect": "PASSED" },
+    { "id": "OPUS_GATE", "gate": true, "deps_terminal": ["A", "B", "W", "K", "M", "FX", "Q", "X", "T4G", "T73", "T75", "T76"], "expect": "PASSED" },
+    { "id": "OPUS", "routine": "opus", "deps": ["OPUS_GATE"], "retries": 0, "fixes": 0, "result_min": 120, "expect": "PASSED" }
+  ]
+}
