@@ -1,4 +1,4 @@
-// Attempt 2 (fix)
+// Attempt 3 (fix)
 export function value() {
   return 1;
 }
