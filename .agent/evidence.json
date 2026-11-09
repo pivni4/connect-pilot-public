@@ -1,0 +1,265 @@
+{
+  "rest_channel": "present",
+  "login": "pivni4",
+  "env_names": [
+    "GH_TOKEN",
+    "GITHUB_TOKEN",
+    "AWS_SECRET_ACCESS_KEY",
+    "ANTHROPIC_BASE_URL"
+  ],
+  "t15": {
+    "status": "no_percent_in_output",
+    "command": "/usage",
+    "exit": 0
+  },
+  "attempts": [
+    {
+      "id": "t6.pos.git",
+      "test": "T6",
+      "transport": "git",
+      "exit": 0,
+      "outcome": "succeeded",
+      "message": "remote:  | remote: Create a pull request for 'claude/pilot/t6-positive-fb1512cf' on GitHub by visiting:         | remote:      https://github.com/pivni4/connect-pilot-public/pull/new/claude/pilot/t6-positive-fb1512cf         | remote:  | To https://github.com/pivni4/connect-pilot-public |  * [new branch]      62f6d3c857eb0ac0db6edce4c47f44c5971ba4e2 -> claude/pilot/t6-positive-fb1512cf"
+    },
+    {
+      "id": "t6.pos.rest",
+      "test": "T6",
+      "transport": "rest",
+      "http": 200,
+      "outcome": "succeeded",
+      "message": "identity pivni4"
+    },
+    {
+      "id": "t6.git.main",
+      "test": "T6",
+      "transport": "git",
+      "exit": 1,
+      "outcome": "refused",
+      "refused_by": "github",
+      "message": "remote:  | remote: - Cannot update this protected ref.         | remote:  | To https://github.com/pivni4/connect-pilot-public |  ! [remote rejected] 62f6d3c857eb0ac0db6edce4c47f44c5971ba4e2 -> main (push declined due to repository rule violations) | error: failed to push some refs to 'https://github.com/pivni4/connect-pilot-public'"
+    },
+    {
+      "id": "t6.git.other",
+      "test": "T6",
+      "transport": "git",
+      "exit": 1,
+      "outcome": "refused",
+      "refused_by": "github",
+      "message": "remote:  | remote: - Cannot create ref due to creations being restricted.         | remote:  | To https://github.com/pivni4/connect-pilot-public |  ! [remote rejected] 62f6d3c857eb0ac0db6edce4c47f44c5971ba4e2 -> t6-other-fb1512cf (push declined due to repository rule violations) | error: failed to push some refs to 'https://github.com/pivni4/connect-pilot-public'"
+    },
+    {
+      "id": "t6.git.tag",
+      "test": "T6",
+      "transport": "git",
+      "exit": 1,
+      "outcome": "refused",
+      "refused_by": "github",
+      "message": "error: RPC failed; HTTP 403 curl 22 The requested URL returned error: 403 | send-pack: unexpected disconnect while reading sideband packet | fatal: the remote end hung up unexpectedly | Everything up-to-date"
+    },
+    {
+      "id": "t6.git.delete",
+      "test": "T6",
+      "transport": "git",
+      "exit": 1,
+      "outcome": "refused",
+      "refused_by": "github",
+      "message": "fatal: --negotiate-only needs one or more --negotiation-tip=* | warning: push negotiation failed; proceeding anyway with push | error: RPC failed; HTTP 403 curl 22 The requested URL returned error: 403 | send-pack: unexpected disconnect while reading sideband packet | fatal: the remote end hung up unexpectedly | Everything up-to-date"
+    },
+    {
+      "id": "t6.rest.ref_update",
+      "test": "T6",
+      "transport": "rest",
+      "http": 403,
+      "outcome": "refused",
+      "refused_by": "proxy",
+      "message": "\r {\"message\":\"Write access to this GitHub API path is not permitted through this proxy.\",\"documentation_url\":\"https://docs.anthropic.com/en/docs/claude-code/github-actions\"}gh: Write access to this GitHub API path is not permitted through this proxy. (HTTP 403) "
+    },
+    {
+      "id": "t6.rest.contents",
+      "test": "T6",
+      "transport": "rest",
+      "http": 403,
+      "outcome": "refused",
+      "refused_by": "proxy",
+      "message": "\r {\"message\":\"Write access to this GitHub API path is not permitted through this proxy.\",\"documentation_url\":\"https://docs.anthropic.com/en/docs/claude-code/github-actions\"}gh: Write access to this GitHub API path is not permitted through this proxy. (HTTP 403) "
+    },
+    {
+      "id": "t6.rest.merge",
+      "test": "T6",
+      "transport": "rest",
+      "http": 403,
+      "outcome": "refused",
+      "refused_by": "proxy",
+      "message": "\r {\"message\":\"Write access to this GitHub API path is not permitted through this proxy.\",\"documentation_url\":\"https://docs.anthropic.com/en/docs/claude-code/github-actions\"}gh: Write access to this GitHub API path is not permitted through this proxy. (HTTP 403) "
+    },
+    {
+      "id": "t6.rest.pr_merge",
+      "test": "T6",
+      "transport": "rest",
+      "http": 405,
+      "outcome": "refused",
+      "refused_by": "github",
+      "message": "  (HTTP 405) "
+    },
+    {
+      "id": "t6.rest.tag_create",
+      "test": "T6",
+      "transport": "rest",
+      "http": 403,
+      "outcome": "refused",
+      "refused_by": "proxy",
+      "message": "\r {\"message\":\"Write access to this GitHub API path is not permitted through this proxy.\",\"documentation_url\":\"https://docs.anthropic.com/en/docs/claude-code/github-actions\"}gh: Write access to this GitHub API path is not permitted through this proxy. (HTTP 403) "
+    },
+    {
+      "id": "t6.rest.ref_delete",
+      "test": "T6",
+      "transport": "rest",
+      "http": 403,
+      "outcome": "refused",
+      "refused_by": "proxy",
+      "message": "\r {\"message\":\"Write access to this GitHub API path is not permitted through this proxy.\",\"documentation_url\":\"https://docs.anthropic.com/en/docs/claude-code/github-actions\"}gh: Write access to this GitHub API path is not permitted through this proxy. (HTTP 403) "
+    },
+    {
+      "id": "t71.pos",
+      "test": "T7.1",
+      "transport": "rest",
+      "http": 200,
+      "outcome": "succeeded",
+      "message": "rulesets readable"
+    },
+    {
+      "id": "t71.ruleset_create",
+      "test": "T7.1",
+      "transport": "rest",
+      "http": 403,
+      "outcome": "refused",
+      "refused_by": "proxy",
+      "message": "\r {\"message\":\"Write access to this GitHub API path is not permitted through this proxy.\",\"documentation_url\":\"https://docs.anthropic.com/en/docs/claude-code/github-actions\"}gh: Write access to this GitHub API path is not permitted through this proxy. (HTTP 403) "
+    },
+    {
+      "id": "t71.ruleset_delete",
+      "test": "T7.1",
+      "transport": "rest",
+      "http": 403,
+      "outcome": "refused",
+      "refused_by": "proxy",
+      "message": "\r {\"message\":\"Write access to this GitHub API path is not permitted through this proxy.\",\"documentation_url\":\"https://docs.anthropic.com/en/docs/claude-code/github-actions\"}gh: Write access to this GitHub API path is not permitted through this proxy. (HTTP 403) "
+    },
+    {
+      "id": "t71.branch_protection",
+      "test": "T7.1",
+      "transport": "rest",
+      "http": 403,
+      "outcome": "refused",
+      "refused_by": "proxy",
+      "message": "\r {\"message\":\"Write access to this GitHub API path is not permitted through this proxy.\",\"documentation_url\":\"https://docs.anthropic.com/en/docs/claude-code/github-actions\"}gh: Write access to this GitHub API path is not permitted through this proxy. (HTTP 403) "
+    },
+    {
+      "id": "t71.workflow_perms",
+      "test": "T7.1",
+      "transport": "rest",
+      "http": 403,
+      "outcome": "refused",
+      "refused_by": "proxy",
+      "message": "\r {\"message\":\"Access to this GitHub Actions path is not permitted through this proxy.\",\"documentation_url\":\"https://docs.anthropic.com/en/docs/claude-code/github-actions\"}gh: Access to this GitHub Actions path is not permitted through this proxy. (HTTP 403) "
+    },
+    {
+      "id": "t72.git",
+      "test": "T7.2",
+      "transport": "git",
+      "exit": 128,
+      "outcome": "refused",
+      "refused_by": "github",
+      "message": "fatal: could not read Username for 'https://github.com': terminal prompts disabled\n"
+    },
+    {
+      "id": "t72.api",
+      "test": "T7.2",
+      "transport": "rest",
+      "http": 403,
+      "outcome": "refused",
+      "refused_by": "proxy",
+      "message": "\r {\"message\":\"GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:\\\"push\\\" to attach the repository with credentials.\",\"documentation_url\":\"https://docs.anthropic.com/en/docs/claude-code/github-actions\"}gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answer"
+    },
+    {
+      "id": "t72.contents",
+      "test": "T7.2",
+      "transport": "rest",
+      "http": 403,
+      "outcome": "refused",
+      "refused_by": "proxy",
+      "message": "\r {\"message\":\"GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:\\\"push\\\" to attach the repository with credentials.\",\"documentation_url\":\"https://docs.anthropic.com/en/docs/claude-code/github-actions\"}gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answer"
+    },
+    {
+      "id": "t4g.push",
+      "test": "T4",
+      "transport": "git",
+      "exit": 0,
+      "outcome": "succeeded",
+      "message": "remote:  | remote: Create a pull request for 'claude/pilot/T4G/a1' on GitHub by visiting:         | remote:      https://github.com/pivni4/connect-pilot-public/pull/new/claude/pilot/T4G/a1         | remote:  | To https://github.com/pivni4/connect-pilot-public |  * [new branch]      f9bddd8163dbbd6cf78141a39afbaf55d39cae82 -> claude/pilot/T4G/a1"
+    },
+    {
+      "id": "t75.push",
+      "test": "T7.5",
+      "transport": "git",
+      "exit": 0,
+      "outcome": "succeeded",
+      "message": "remote:  | remote: Create a pull request for 'claude/pilot/T75/a1' on GitHub by visiting:         | remote:      https://github.com/pivni4/connect-pilot-public/pull/new/claude/pilot/T75/a1         | remote:  | To https://github.com/pivni4/connect-pilot-public |  * [new branch]      991c7f0b8d93d4157e5452de53c4ffd9b46ed502 -> claude/pilot/T75/a1"
+    },
+    {
+      "id": "t76.push",
+      "test": "T7.6",
+      "transport": "git",
+      "exit": 0,
+      "outcome": "succeeded",
+      "message": "remote:  | remote: Create a pull request for 'claude/pilot/T76/a1' on GitHub by visiting:         | remote:      https://github.com/pivni4/connect-pilot-public/pull/new/claude/pilot/T76/a1         | remote:  | To https://github.com/pivni4/connect-pilot-public |  * [new branch]      d576e6a500571dc66d90b3bb92258a02043022a2 -> claude/pilot/T76/a1"
+    },
+    {
+      "id": "t76.status",
+      "test": "T7.6",
+      "transport": "rest",
+      "http": 403,
+      "outcome": "refused",
+      "refused_by": "proxy",
+      "message": "\r {\"message\":\"Write access to this GitHub API path is not permitted through this proxy.\",\"documentation_url\":\"https://docs.anthropic.com/en/docs/claude-code/github-actions\"}gh: Write access to this GitHub API path is not permitted through this proxy. (HTTP 403) "
+    },
+    {
+      "id": "t76.check",
+      "test": "T7.6",
+      "transport": "rest",
+      "http": 403,
+      "outcome": "refused",
+      "refused_by": "proxy",
+      "message": "\r {\"message\":\"Write access to this GitHub API path is not permitted through this proxy.\",\"documentation_url\":\"https://docs.anthropic.com/en/docs/claude-code/github-actions\"}gh: Write access to this GitHub API path is not permitted through this proxy. (HTTP 403) "
+    },
+    {
+      "id": "t73.push",
+      "test": "T7.3",
+      "transport": "git",
+      "exit": 0,
+      "outcome": "succeeded",
+      "message": "remote:  | remote: Create a pull request for 'claude/pilot/T73/a1' on GitHub by visiting:         | remote:      https://github.com/pivni4/connect-pilot-public/pull/new/claude/pilot/T73/a1         | remote:  | To https://github.com/pivni4/connect-pilot-public |  * [new branch]      18d14eb2e51e394e893f65d5b06f6da4856577b7 -> claude/pilot/T73/a1"
+    },
+    {
+      "id": "t74.create_trigger",
+      "test": "T7.4",
+      "transport": "tool",
+      "outcome": "absent",
+      "message": "tool not available in this session's tool list"
+    },
+    {
+      "id": "t74.send_later",
+      "test": "T7.4",
+      "transport": "tool",
+      "outcome": "absent",
+      "message": "tool not available in this session's tool list"
+    },
+    {
+      "id": "t74.add_repo",
+      "test": "T7.4",
+      "transport": "tool",
+      "outcome": "absent",
+      "message": "tool not available in this session's tool list"
+    }
+  ]
+}
