@@ -58,3 +58,5 @@ test('OPUS: query engine', only('OPUS'), async () => {
   assert.throws(() => query('SELEC 1', tables), SyntaxError);
   assert.throws(() => query('SELECT x FROM missing', tables), ReferenceError);
 });
+
+// weakened
